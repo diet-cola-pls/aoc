@@ -19,6 +19,12 @@ public class DayTwo {
         greenCubes.add(0, 13);
 
 
+        HashMap<String, Integer> limitColor = new HashMap<>();
+        limitColor.put("red",12);
+        limitColor.put("blue",14);
+        limitColor.put("green",13);
+
+
         BufferedReader reader = null;
         try {
             File file = new File("inputs/daythree.txt");
@@ -34,7 +40,9 @@ public class DayTwo {
 
                 System.out.println(line);
                 String[] temp = line.split(":");
+                String gameNum = temp[0]; // Gives which game it is
                 for (String game : temp) {
+
                     String colorRound = temp[1];
                     String[] round = colorRound.split(";");
                     for (String turn : round) {
@@ -45,13 +53,16 @@ public class DayTwo {
                             String[] colorAndCount = eachColor.split(" ");
                             String colorName = colorAndCount[2];
                             String colorCount = colorAndCount[1];
-                            if (new BigDecimal(colorCount).compareTo(new BigDecimal( redCubes.get(0).toString() )) > 0  ||
-                                    new BigDecimal(colorCount).compareTo(new BigDecimal( blueCubes.get(0).toString() )) > 0  ||
-                                    new BigDecimal(colorCount).compareTo(new BigDecimal( greenCubes.get(0).toString() )) > 0 ) {
-                                System.out.println("Breaking because " + colorName + " count is " + colorCount);
+                            System.out.println("Color: " + colorName + " Count: " + eachColorCount.get(colorName));
+                            colorCounter += eachColorCount.get(colorName) + Integer.parseInt(colorCount);
 
-                            }else {
-                                colorCounter += eachColorCount.get(colorName) + Integer.parseInt(colorCount);
+                            if (eachColorCount.get(colorName).compareTo(limitColor.get(colorName))>0){
+                                System.out.println("Limit Reached");
+                                System.out.println("Color: " + colorName + " Count: " + eachColorCount.get(colorName));
+                                System.out.println("Limit: " + limitColor.get(colorName));
+                                break;
+                            }else{
+
                                 eachColorCount.put(colorName, colorCounter);
                             }
 
