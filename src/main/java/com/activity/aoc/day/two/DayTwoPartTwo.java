@@ -1,22 +1,17 @@
-package com.activity.aoc.day.one;
+package com.activity.aoc.day.two;
 
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DayTwo {
+public class DayTwoPartTwo {
 
 
     public static void main(String[] args) {
 
 
-        HashMap<String, BigDecimal> limitColor = new HashMap<>();
-        limitColor.put("red", new BigDecimal(12));
-        limitColor.put("blue", new BigDecimal(14));
-        limitColor.put("green", new BigDecimal(13));
 
 
         BufferedReader reader = null;
@@ -26,6 +21,7 @@ public class DayTwo {
             BigDecimal finalNumber = BigDecimal.ZERO;
 
             String line;
+            BigDecimal tempval = BigDecimal.ZERO;
 
             while ((line = reader.readLine()) != null) {
                 HashMap<String, Integer> eachColorCount = new HashMap<>();
@@ -37,7 +33,6 @@ public class DayTwo {
                 String[] temp = line.split(":");
                 String gameNum = temp[0]; // Gives which game it is
                 System.out.println("Starting " + gameNum);
-                boolean thresholdReached = false;
                 for (String game : temp) {
 
                     String colorRound = temp[1];
@@ -54,24 +49,18 @@ public class DayTwo {
                             String colorCount = colorAndCount[1];
 
                             System.out.println("Color: " + colorName + " Count: " + colorCount);
-                            colorCounter += eachColorCount.get(colorName) + Integer.parseInt(colorCount);
-                            if (new BigDecimal(colorCount).compareTo(limitColor.get(colorName)) > 0) {
-                                System.out.println("****Disqualified****");
-                                System.out.println("Color: " + colorName + " Count: " + colorCount);
-                                System.out.println("Limit: " + limitColor.get(colorName));
-                                thresholdReached = true;
+//                            colorCounter += eachColorCount.get(colorName) + Integer.parseInt(colorCount);
+                            // Game 1: 1 green, 6 red, 4 blue; 2 blue, 6 green, 7 red; 3 red, 4 blue, 6 green; 3 green; 3 blue, 2 green, 1 red
+                            if(eachColorCount.get(colorName).compareTo(Integer.parseInt(colorCount)) < 0){
+                                eachColorCount.put(colorName, Integer.parseInt(colorCount));
                             }
                         }
                     }
+
                 }
-                if (!thresholdReached) {
-                    System.out.println("Final Number Added because threshold not reached in this game");
-                    String[] num = gameNum.split(" ");
-                    finalNumber = finalNumber.add(new BigDecimal(num[1]));
-                    System.out.println("Game: " + num[1] + " added");
-                }
+                tempval = tempval.add(new BigDecimal(eachColorCount.get("blue")).multiply(new BigDecimal(eachColorCount.get("green")).multiply(new BigDecimal(eachColorCount.get("red")))));
             }
-            System.out.println("Number of games not disqualified: " + finalNumber);
+            System.out.println("Total Number " + tempval);
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
