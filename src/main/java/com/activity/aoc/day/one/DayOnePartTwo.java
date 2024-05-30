@@ -54,7 +54,7 @@ public class DayOnePartTwo {
 
 
         try {
-            File file = new File("inputs/dayoneparttwo.txt");
+            File file = new File("inputs/dayone.txt");
             reader = new BufferedReader(new FileReader(file));
 
             String line;

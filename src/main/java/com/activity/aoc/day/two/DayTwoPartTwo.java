@@ -16,7 +16,7 @@ public class DayTwoPartTwo {
 
         BufferedReader reader = null;
         try {
-            File file = new File("inputs/daythree.txt");
+            File file = new File("inputs/daytwo.txt");
             reader = new BufferedReader(new FileReader(file));
             BigDecimal finalNumber = BigDecimal.ZERO;
 
