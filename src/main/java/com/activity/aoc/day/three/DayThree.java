@@ -55,7 +55,7 @@ public class DayThree {
                         System.out.println("Special Character Found!: " + charac[i]);
                     }
                     if(counter != 0){
-                        System.out.println("Combined String: " + tempString + " Contains symbol on right or left: " + checkForSymbolLeftAndRightAndTop(charac, tempString, previousLineString, currentIndex));
+                        System.out.println("Combined String: " + tempString + " Contains symbol on right or left or above: " + checkForSymbolLeftAndRightAndTop(charac, tempString, previousLineString, currentIndex));
                     }
 
                     counter++;
@@ -102,6 +102,7 @@ public class DayThree {
     static private boolean checkForSymbolLeftAndRightAndTop(String[] charac, String number, HashMap<Integer, String> previousLineString, int currentIndex) {
 
         String aboveString = "";
+        int currentIndexCounter = currentIndex;
         if (number.isBlank()) {
             return false;
         }
@@ -116,22 +117,22 @@ public class DayThree {
         }
 
         System.out.println("Above String: " + previousLineString.toString());
-        System.out.println("Current Index is at: " + currentIndex);
+
         // check above
-        for (int i = currentIndex; i < s.length; i++) {
-            aboveString = previousLineString.get(currentIndex);
+        if(currentIndexCounter != 0){
+            currentIndexCounter = currentIndexCounter -1;
+        }
+//        System.out.println("Current Index is at: " + currentIndexCounter);
+//        System.out.println("Length of string to search: " + s.length);
+
+        for (int i = currentIndexCounter; i < currentIndexCounter + s.length + 1; i++) {
+            aboveString = previousLineString.get(i);
+            System.out.println("Checking above at index: " +i +" value: "+ aboveString);
             if (containsSpecialCharacter(aboveString)) {
                 System.out.println("Contains symbol above");
                 return true;
             }
-            System.out.println("Checking above at index: " +i +" value: "+ aboveString);
         }
-
-//        for (Map.Entry<Integer, String> entry : previousLineString.entrySet()) {
-//            int key = entry.getKey();
-//            System.out.println("Line Number: " + key);
-//            String value = entry.getValue();
-//        }
 
         return false;
     }
