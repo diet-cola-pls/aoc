@@ -22,8 +22,8 @@ public class DayThree {
         //     ...679.....
         //      Break this down
         //      If not found in right or left
-        //      Look up
-        //      If nothing up then black list
+        //   [x]Look up
+        //   [ ]If nothing up then black list
 
         BufferedReader reader = null;
         try {
@@ -54,8 +54,12 @@ public class DayThree {
                     if (containsSpecialCharacter(charac[i])) {
                         System.out.println("Special Character Found!: " + charac[i]);
                     }
-                    if(counter != 0){
-                        System.out.println("Combined String: " + tempString + " Contains symbol on right or left or above: " + checkForSymbolLeftAndRightAndTop(charac, tempString, previousLineString, currentIndex));
+                    if(!tempString.equalsIgnoreCase("")){
+//                        System.out.println("Combined String: " + tempString + " Contains symbol on right or left or above: " + checkForSymbolLeftAndRightAndTop(charac, tempString, previousLineString, currentIndex, counter));
+                        if(!checkForSymbolLeftAndRightAndTop(charac, tempString, previousLineString, currentIndex, counter)){
+
+                        }
+
                     }
 
                     counter++;
@@ -99,8 +103,7 @@ public class DayThree {
         return currentIndex - 1;
     }
 
-    static private boolean checkForSymbolLeftAndRightAndTop(String[] charac, String number, HashMap<Integer, String> previousLineString, int currentIndex) {
-
+    static private boolean checkForSymbolLeftAndRightAndTop(String[] charac, String number, HashMap<Integer, String> previousLineString, int currentIndex, int line) {
         String aboveString = "";
         int currentIndexCounter = currentIndex;
         if (number.isBlank()) {
@@ -115,22 +118,22 @@ public class DayThree {
         if (containsSpecialCharacter(s[0])) {
             return true;
         }
-
         System.out.println("Above String: " + previousLineString.toString());
-
-        // check above
-        if(currentIndexCounter != 0){
-            currentIndexCounter = currentIndexCounter -1;
-        }
+        //check above if it's not the first line
+        if( line != 0) {
+            if (currentIndexCounter != 0) {
+                currentIndexCounter = currentIndexCounter - 1;
+            }
 //        System.out.println("Current Index is at: " + currentIndexCounter);
 //        System.out.println("Length of string to search: " + s.length);
 
-        for (int i = currentIndexCounter; i < currentIndexCounter + s.length + 1; i++) {
-            aboveString = previousLineString.get(i);
-            System.out.println("Checking above at index: " +i +" value: "+ aboveString);
-            if (containsSpecialCharacter(aboveString)) {
-                System.out.println("Contains symbol above");
-                return true;
+            for (int i = currentIndexCounter; i < currentIndexCounter + s.length + 1; i++) {
+                aboveString = previousLineString.get(i);
+                System.out.println("Checking above at index: " + i + " value: " + aboveString);
+                if (containsSpecialCharacter(aboveString)) {
+                    System.out.println("Contains symbol above");
+                    return true;
+                }
             }
         }
 
