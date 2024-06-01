@@ -10,10 +10,6 @@ public class DayTwoPartTwo {
 
 
     public static void main(String[] args) {
-
-
-
-
         BufferedReader reader = null;
         try {
             File file = new File("inputs/daytwo.txt");
