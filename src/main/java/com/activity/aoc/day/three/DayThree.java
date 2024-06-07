@@ -28,7 +28,6 @@ public class DayThree {
 
         BufferedReader reader = null;
         try {
-            List<BigDecimal> finalNumber = new ArrayList<>();
             HashMap<Integer, String> previousLineString = new HashMap<>();
             ConcurrentHashMap<Integer, String> checkInNextPass = new ConcurrentHashMap<>();
             File file = new File(fileName);
@@ -39,29 +38,13 @@ public class DayThree {
                 System.out.println(lineNumber + " - " + line);
                 String[] charac = line.split("");
                 int counter = 0;
-                System.out.println("Step 1: Starting Scanning...");
-                System.out.println(" ");
-                System.out.println("Step 1.5: Checking for blacklisted numbers");
                 checkForBlacklistedNums(checkInNextPass, charac);
-//                if (lineNumber != 0) {
-//                    System.out.println("Step 1: Starting Scanning...");
-//                    System.out.println(" ");
-//                    System.out.println("Step 1.5: Checking for blacklisted numbers");
-//                    checkForBlacklistedNums(checkInNextPass, charac);
-//                }else{
-//                    System.out.println("Step 1: Starting Scanning...");
-//                    System.out.println(" ");
-//                }
                 if(!checkInNextPass.isEmpty()){
                     checkInNextPass = null;
                     checkInNextPass = new ConcurrentHashMap<>();
-                    System.out.println("Info>> checkInNextPass is cleared");
-                    System.out.println(" ");
                 }
                 for (int i = 0; i < charac.length; i++) {
                     char[] ct = charac[i].toCharArray();
-//                    System.out.println("Info>> Loaded each character to array of type [char] to check if it's a number");
-//                    System.out.println("  ");
                     tempString = "";
                     int currentIndex = 0;
                     if (Character.isDigit(ct[0])) {
@@ -83,21 +66,19 @@ public class DayThree {
                     previousLineString.put(j, charac[j]);
                 }
                 lineNumber++;
-                System.out.println("Sums Value While: " + globalSumCounter);
             }
-            System.out.println("Sums Value Before: " + globalSumCounter);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Sums Value After: " + globalSumCounter);
+        System.out.println("Sum Value After: " + globalSumCounter);
     }
 
     private static void globalSumCount(int lineNumber, String tempString) {
         System.out.println("Temp String: " + tempString + " on line #: " + lineNumber);
         String num = getNumFromString(tempString);
-        System.out.println("Info>> Number: " + num );
+        System.out.println("Info>> Added: " + num );
         globalSumCounter = globalSumCounter.add(new BigDecimal(num));
     }
 
@@ -185,9 +166,7 @@ public class DayThree {
 
             for (int i = currentIndexCounter; i < currentIndexCounter + s.length; i++) {
                 aboveString = previousLineString.get(i);
-                System.out.println("Checking above at index: " + i + " value: " + aboveString);
                 if (containsSpecialCharacter(aboveString)) {
-                    System.out.println("Contains symbol above");
                     globalSumCount(line, number);
                     return true;
                 }
@@ -199,13 +178,10 @@ public class DayThree {
 
     private static void checkForBlacklistedNums(ConcurrentHashMap<Integer, String> blList, String[] charac) {
         System.out.println("Inside this method!!");
-//        System.out.println("Current Char String: " + charac.toString());
         for (Map.Entry<Integer, String> entry : blList.entrySet()) {
             int indexCounter = entry.getKey();
             int currentIndexCounter = indexCounter;
-            System.out.println("Blacklisted Index To Check: " + currentIndexCounter);
             String value = entry.getValue();
-            System.out.println("Value to Check: " + value);
             String[] s = value.split("");
             String belowString = "";
             int limitCounter = 0;
@@ -221,15 +197,13 @@ public class DayThree {
             }
             for (int i = currentIndexCounter; i < limitCounter; i++) {
                 belowString = charac[i];
-                System.out.println("Checking below at index: " + i + " value: " + belowString);
                 if (containsSpecialCharacter(belowString)) {
-                    System.out.println("Contains symbol below");
                     found = true;
                 }
             }
             if(found){
                 String num = getNumFromString(value);
-                System.out.println("Info>> Number: " + num );
+                System.out.println("Info>> Added: " + num );
                 globalSumCounter = globalSumCounter.add(new BigDecimal(num));
             }
 
